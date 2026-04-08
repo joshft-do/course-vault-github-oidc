@@ -12,7 +12,8 @@ vault login vaultiscool
 vault auth enable -path=gha jwt
 vault write auth/gha/config \
 bound_issuer="https://token.actions.githubusercontent.com" \
-oidc_discovery_url="https://token.actions.githubusercontent.com"
+oidc_discovery_url="https://token.actions.githubusercontent.com" \
+default_role="${VAULT_JWT_ROLE:-step3}"
 
 # Create a secret
 vault kv put secret/production access_token=xyz456

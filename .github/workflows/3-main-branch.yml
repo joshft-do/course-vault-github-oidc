@@ -24,6 +24,8 @@ jobs:
     name: Secrets only from the default branch
     # When using services, the runner must be Linux
     runs-on: ubuntu-latest
+    env:
+      VAULT_JWT_ROLE: step3
 
     # Set up a Vault container to connect to
     # This allows us to run our exercises without having to set up Vault infrastructure separately
@@ -63,7 +65,7 @@ jobs:
         env:
           VAULT_ADDR: http://127.0.0.1:8200
         run: |
-          vault write auth/gha/role/GIVE_ME_A_NAME - << EOF
+          vault write auth/gha/role/${VAULT_JWT_ROLE} - << EOF
           {
             "role_type": "jwt",
             "user_claim": "actor",
@@ -80,8 +82,8 @@ jobs:
         uses: hashicorp/vault-action@v3
         id: secrets
         with:
-          # TODO: Don't forget to enter the role name you created above!
-          role: ""
+          # Must match VAULT_JWT_ROLE and the auth/gha/role/<name> created above
+          role: ${{ env.VAULT_JWT_ROLE }}
           # Retrieve a secret from the KV v2 secrets engine at the mount point `secret`.
           secrets: |
             secret/data/production access_token | ACCESS_TOKEN ;
