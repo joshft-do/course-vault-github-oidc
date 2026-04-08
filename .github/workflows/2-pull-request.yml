@@ -63,14 +63,12 @@ jobs:
         env:
           VAULT_ADDR: http://127.0.0.1:8200
         run: |
-          vault write auth/gha/role/GIVE_ME_A_NAME - << EOF
+          vault write auth/gha/role/step2 - << EOF
           {
             "role_type": "jwt",
             "user_claim": "actor",
             "bound_claims": {
-
-              # Fill in missing "sub" claim
-
+              "sub": "joshft-do/course-vault-github-oidc:pull_request"
             },
             "policies": ["pr-policy"],
             "ttl": "60s"
@@ -82,7 +80,7 @@ jobs:
         id: secrets
         with:
           # TODO: Don't forget to enter the role name you created above!
-          role: ""
+          role: "step2"
           # Retrieve a secret from the KV v2 secrets engine at the mount point `secret`.
           secrets: |
             secret/data/development access_token | ACCESS_TOKEN ;
