@@ -67,10 +67,9 @@ jobs:
           {
             "role_type": "jwt",
             "user_claim": "actor",
+            "bound_audiences": ["https://github.com/${GITHUB_REPOSITORY_OWNER}"],
             "bound_claims": {
-
-              # Fill in missing "sub" claim
-
+              "sub": "repo:${GITHUB_REPOSITORY}:ref:refs/heads/main"
             },
             "policies": ["main-policy"],
             "ttl": "60s"
