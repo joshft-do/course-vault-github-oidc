@@ -67,8 +67,9 @@ jobs:
           {
             "role_type": "jwt",
             "user_claim": "actor",
+            "bound_audiences": ["https://github.com/${GITHUB_REPOSITORY_OWNER}"],
             "bound_claims": {
-              "sub": "joshft-do/course-vault-github-oidc:pull_request"
+              "sub": "repo:${GITHUB_REPOSITORY}:pull_request"
             },
             "policies": ["pr-policy"],
             "ttl": "60s"
