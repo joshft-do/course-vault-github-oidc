@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # Initializes Vault with a JWT backend for GitHub OIDC
       # Creates a `main-policy` policy granting access to `secret/data/production`
@@ -79,7 +79,7 @@ jobs:
           EOF
 
       - name: Retrieve Secrets
-        uses: hashicorp/vault-action@v3
+        uses: hashicorp/vault-action@v4
         id: secrets
         with:
           # Must match VAULT_JWT_ROLE and the auth/gha/role/<name> created above
